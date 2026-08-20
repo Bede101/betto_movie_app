@@ -1,0 +1,3 @@
+class Costants {
+  key = 
+}
