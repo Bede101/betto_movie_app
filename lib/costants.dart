@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Costants {
-  key = 
+  final apiKey = dotenv.env['TMDB_API_KEY'];
 }
