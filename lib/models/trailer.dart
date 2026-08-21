@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Trailer {
   int id;
   String name;
