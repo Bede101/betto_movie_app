@@ -1,3 +1,4 @@
+import 'package:betto_movie_app/views/movies_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> main() async{
@@ -16,6 +17,7 @@ class MovieApp extends StatelessWidget {
         useMaterial3: true,
 
       ),
+      home: const MoviesPage(),
     );
   }
 }
