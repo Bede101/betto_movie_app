@@ -4,9 +4,11 @@ import 'package:betto_movie_app/constants.dart';
 import 'package:betto_movie_app/models/movie.dart';
 import 'package:http/http.dart' as http;
 
+//Definiamo il servizio di chiamata dei film popolari
 class TMDBService {
   Future<List<Movie>> getMovies () async {
-    final uri = Uri.parse("${Constants.apiUrl}trending/movie/");
+    //Andiamo a fare il parsing dei film popolari
+    final uri = Uri.parse("${Constants.apiUrl}/trending/movie/day?language=en-US");
     final response = await http.get(
       uri,
       headers: {
@@ -15,10 +17,14 @@ class TMDBService {
       }
     );
     if (response.statusCode != 200) {
-      throw Exception('Errore durante la getMovies');
+      throw Exception('Errore durante la getMovies ${response.body}');
     }
+    //Decodifichiamo il body dei film parsati
     final data = jsonDecode(response.body);
+    //Salviamo i valori result in una Lista dinamica
     final List<dynamic> results = data['results'];
+    //Andiamo a fare il mapping dei valori result, ovverosia li mettiamo in una lista di
+    //Coppie chiave-valore.
     final List<Movie> movies = results.map((row) => Movie.fromJson(row)).toList();
     return movies;
   }

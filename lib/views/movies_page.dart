@@ -1,3 +1,4 @@
+import 'package:betto_movie_app/constants.dart';
 import 'package:betto_movie_app/controllers/movie_controller.dart';
 import 'package:betto_movie_app/models/movie.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _MoviesPageState extends State<MoviesPage> {
   void initState() {
     super.initState();
     _movies = _movieController.getMovies();
+    print(_movies);
   }
 
 
@@ -36,8 +38,32 @@ class _MoviesPageState extends State<MoviesPage> {
               child: CircularProgressIndicator()
             );
           }
+          else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
           final List<Movie> movies = snapshot.data ?? [];
-          return Text('${movies.length}');
+          return ListView.builder(
+            itemCount: movies.length,
+            itemBuilder: (context, index) {
+              final movie = movies[index];
+              return ListTile(
+                //TODO 
+                 leading: movie.posterPath != null
+                ? Image.network('${Constants.posterUrl}${movie.posterPath}', 
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.fill
+                ) 
+                : const SizedBox(
+                    height: 60,
+                    width: 60
+                ), 
+                title: Text(movie.title),
+                subtitle: Text(movie.overview),
+                trailing: Text('⭐ ${movie.voteAverage}'),
+              );
+            },
+          );
         }
       ),
     );
