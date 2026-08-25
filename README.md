@@ -1,17 +1,12 @@
-# betto_movie_app
+# Betomo Movie App
 
-A new Flutter project.
+App mobile sviluppata in Flutter per il browsing di film, ispirata alle funzionalità di base dei servizi di streaming. Recupera i dati da TMDB e permette di sfogliare i film popolari, visualizzarne i dettagli, cercarli e salvarli in una watchlist personale persistente.
 
-## Getting Started
+## Funzionalità incluse
 
-This project is a starting point for a Flutter application.
+- Lista dei film popolari, recuperata dinamicamente da TMDB
 
-A few resources to get you started if this is your first Flutter project:
+## Stack tecnico
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter/Dart**
+- **TMDB API**: Dati sui film
