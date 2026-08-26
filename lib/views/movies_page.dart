@@ -17,6 +17,7 @@ class _MoviesPageState extends State<MoviesPage> {
   //Inseriamo il late per definire che movies non potrà essere più nullable dopo la chiamata
   late Future<List<Movie>> _movies;
 
+  //Inizializziamo lo stato del movieController.
   @override
   void initState() {
     super.initState();

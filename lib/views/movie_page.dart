@@ -20,12 +20,18 @@ class _MoviePageState extends State<MoviePage> {
   late Future<List<Trailer>> _trailers;
   late YoutubePlayerController controller;
 
+  //Inizializzamo lo stato come abbiamo fatto per il movieController e il getMovies, tuttavia
+  //rendiamo la funzione asincrona a differenza di movieController così da migliorare la reattività
+  //dell'interfaccia
+
   @override
   void initState() {
     super.initState();
     _loadtrailerData();
   } 
 
+  //E' importante che chiamiamo la funzione asincrona al di fuori di initState, in quanto initState si
+  //immediatamente void e non Future
   void _loadtrailerData() async {
     _trailers = _trailerController.getTrailers(widget.movie.id);
     Trailer trailer = (await _trailers).first;
