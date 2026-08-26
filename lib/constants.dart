@@ -4,4 +4,5 @@ class Constants {
   static final apiKey = dotenv.env['TMDB_API_KEY'];
   static final apiUrl = 'https://api.themoviedb.org/3';
   static final posterUrl = 'https://image.tmdb.org/t/p/w500';
+  static final youtubeUrl = 'https://www.youtube.com/watch?v=';
 }

@@ -1,5 +1,5 @@
 class Trailer {
-  int id;
+  String id;
   String name;
   String key;
   String? type;
@@ -16,7 +16,7 @@ class Trailer {
   factory Trailer.fromJson (Map<String, dynamic> json)
   {
     return Trailer (
-      id: json['id'] as int,
+      id: json['id'] as String,
       name: json['name'] as String,
       key: json['key'] as String,
       type: json['type'] as String,

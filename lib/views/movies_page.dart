@@ -1,6 +1,7 @@
 import 'package:betto_movie_app/constants.dart';
 import 'package:betto_movie_app/controllers/movie_controller.dart';
 import 'package:betto_movie_app/models/movie.dart';
+import 'package:betto_movie_app/views/movie_page.dart';
 import 'package:flutter/material.dart';
 
 class MoviesPage extends StatefulWidget {
@@ -20,7 +21,6 @@ class _MoviesPageState extends State<MoviesPage> {
   void initState() {
     super.initState();
     _movies = _movieController.getMovies();
-    print(_movies);
   }
 
 
@@ -47,20 +47,33 @@ class _MoviesPageState extends State<MoviesPage> {
             itemBuilder: (context, index) {
               final movie = movies[index];
               return ListTile(
-                //TODO 
                  leading: movie.posterPath != null
-                ? Image.network('${Constants.posterUrl}${movie.posterPath}', 
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.fill
+                ? ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(5.0),
+                  child: Image.network('${Constants.posterUrl}${movie.posterPath}', 
+                    width: 75,
+                    height: 75,
+                    fit: BoxFit.fill,
+                  ),
                 ) 
                 : const SizedBox(
-                    height: 60,
-                    width: 60
+                    height: 75,
+                    width: 75
                 ), 
                 title: Text(movie.title),
-                subtitle: Text(movie.overview),
+                subtitle: Text(
+                  movie.overview, 
+                  overflow: TextOverflow.ellipsis, 
+                  maxLines: 3
+                ),
                 trailing: Text('⭐ ${movie.voteAverage}'),
+                onTap: () {
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder:(context) => MoviePage(movie: movie)
+                    )
+                  );
+                },
               );
             },
           );
