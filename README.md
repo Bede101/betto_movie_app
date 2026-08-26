@@ -4,9 +4,11 @@ App mobile sviluppata in Flutter per il browsing di film, ispirata alle funziona
 
 ## Funzionalità incluse
 
-- Lista dei film popolari, recuperata dinamicamente da TMDB
+- Lista dei film popolari, recuperata dinamicamente da TMDB. Vengono visualizzati poster, overview e rating. 
+- Visualizzazione individuale per i film, permettendo di leggerne il poster intero e la descrizione completa.
 
 ## Stack tecnico
 
 - **Flutter/Dart**
-- **TMDB API**: Dati sui film
+- **TMDB API**: Dati sui film.
+- **youtube_player_flutter**: Trailer dei film.
