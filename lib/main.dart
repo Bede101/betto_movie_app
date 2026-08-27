@@ -15,7 +15,11 @@ class MovieApp extends StatelessWidget {
       title: 'Movie App',
       theme: ThemeData(
         useMaterial3: true,
-
+        scaffoldBackgroundColor: Color.fromRGBO(230, 215, 255, 1),
+        textTheme: Theme.of(context).textTheme.apply(
+          bodyColor: const Color.fromARGB(255, 66, 82, 90), 
+          displayColor: const Color.fromARGB(255, 66, 82, 90)
+        )
       ),
       home: const MoviesPage(),
     );

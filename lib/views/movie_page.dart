@@ -3,7 +3,7 @@ import 'package:betto_movie_app/controllers/trailer_controller.dart';
 import 'package:betto_movie_app/models/movie.dart';
 import 'package:betto_movie_app/models/trailer.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class MoviePage extends StatefulWidget {
   final Movie movie;
@@ -18,7 +18,13 @@ class _MoviePageState extends State<MoviePage> {
   final TrailerController _trailerController = TrailerController();
   //Inseriamo il late per definire che movies non potrà essere più nullable dopo la chiamata
   late Future<List<Trailer>> _trailers;
-  late YoutubePlayerController controller;
+  YoutubePlayerController controller = YoutubePlayerController(
+      params: YoutubePlayerParams(
+        showControls: true,
+        showFullscreenButton: true,
+        mute: false
+      )
+    );
 
   //Inizializzamo lo stato come abbiamo fatto per il movieController e il getMovies, tuttavia
   //rendiamo la funzione asincrona a differenza di movieController così da migliorare la reattività
@@ -35,11 +41,15 @@ class _MoviePageState extends State<MoviePage> {
   void _loadtrailerData() async {
     _trailers = _trailerController.getTrailers(widget.movie.id);
     Trailer trailer = (await _trailers).first;
-    print(trailer.key);
+    controller.cueVideoById(videoId: trailer.key);
   }
 
-
   @override
+  void dispose () {
+    controller.close();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     //Fare scaffold con appbar con titolo film, body overview, image e rating
     //Sotto andiamo a fare il trailer
@@ -49,15 +59,29 @@ class _MoviePageState extends State<MoviePage> {
       ),
       body:
         Center(
-          child: Column(
-            children: [
-              Image.network(
-                '${Constants.posterUrl}${widget.movie.posterPath}'
-              ),
-              Text((widget.movie.voteAverage).toString()),
-              Text(widget.movie.overview),
- //             YoutubePlayer(controller: controller)
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Image.network(
+                  '${Constants.posterUrl}${widget.movie.posterPath}'
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "⭐ ${(widget.movie.voteAverage)?.toStringAsFixed(1) ?? 'Nessun voto'} ",
+                    style: TextStyle(fontSize: 32),  
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsGeometry.all(16.0),
+                  child: Text(
+                    widget.movie.overview,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                YoutubePlayer(controller: controller)
+              ],
+            ),
           ),
         ) 
     );

@@ -17,7 +17,7 @@ class _MoviesPageState extends State<MoviesPage> {
   //Inseriamo il late per definire che movies non potrà essere più nullable dopo la chiamata
   late Future<List<Movie>> _movies;
 
-  //Inizializziamo lo stato del movieController.
+  //Inizializziamo movieController.
   @override
   void initState() {
     super.initState();
@@ -61,13 +61,15 @@ class _MoviesPageState extends State<MoviesPage> {
                     height: 75,
                     width: 75
                 ), 
-                title: Text(movie.title),
+                title: Text(movie.title, style: TextStyle(fontSize: 18)),
                 subtitle: Text(
                   movie.overview, 
                   overflow: TextOverflow.ellipsis, 
-                  maxLines: 3
+                  maxLines: 3,
+                  style: TextStyle(fontSize: 16)
                 ),
-                trailing: Text('⭐ ${movie.voteAverage}'),
+                trailing: Text('⭐ ${movie.voteAverage?.toStringAsFixed(1)}',
+                  style: TextStyle(fontSize: 18)),
                 onTap: () {
                   Navigator.push(
                     context, MaterialPageRoute(
