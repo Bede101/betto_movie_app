@@ -11,4 +11,4 @@ App mobile sviluppata in Flutter per il browsing di film, ispirata alle funziona
 
 - **Flutter/Dart**
 - **TMDB API**: Dati sui film.
-- **youtube_player_flutter**: Trailer dei film.
+- **youtube_player_iframe**: Trailer dei film.
