@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:betto_movie_app/constants.dart';
+import 'package:betto_movie_app/controllers/movie_controller.dart';
 import 'package:betto_movie_app/models/movie.dart';
 import 'package:betto_movie_app/models/trailer.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +26,13 @@ class TMDBService {
     final List<dynamic> results = data['results'];
     //Andiamo a fare il mapping dei valori result, ovverosia li mettiamo in una lista di
     //Coppie chiave-valore.
-    final List<Movie> movies = results.map((row) => Movie.fromJson(row)).toList();
+    MovieController movieController = MovieController();
+    final List<Movie> movies = await Future.wait(
+      results.map((row) async {
+        final isFavourite = await movieController.isFavourite(row['id']);
+        return Movie.fromJson(row, isFavourite);
+      })
+    );
     return movies;
   }
 

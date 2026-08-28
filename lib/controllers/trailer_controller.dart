@@ -1,5 +1,5 @@
 import 'package:betto_movie_app/models/trailer.dart';
-import 'package:betto_movie_app/tmdb_service.dart';
+import 'package:betto_movie_app/services/tmdb_service.dart';
 
 class TrailerController {
   //Definiamo il TMDBService come privato, così che non possa essere ne letto ne modificato

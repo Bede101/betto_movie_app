@@ -68,8 +68,22 @@ class _MoviesPageState extends State<MoviesPage> {
                   maxLines: 3,
                   style: TextStyle(fontSize: 16)
                 ),
-                trailing: Text('⭐ ${movie.voteAverage?.toStringAsFixed(1)}',
-                  style: TextStyle(fontSize: 18)),
+                trailing: Row(
+                  children: [
+                    Text('⭐ ${movie.voteAverage?.toStringAsFixed(1)}',
+                      style: TextStyle(fontSize: 18)
+                    ),
+                    IconButton(
+                      onPressed: ()async{
+                        await _movieController.toggleFavorite(movie.id);
+                        setState(() {
+                        
+                        });
+                      }, 
+                      icon: Icon(Icons.favorite)
+                    )
+                  ],
+                ),
                 onTap: () {
                   Navigator.push(
                     context, MaterialPageRoute(
