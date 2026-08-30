@@ -11,7 +11,8 @@ class MovieController {
   final FavouriteService _favourites = FavouriteService();
 
   Future<List<Movie>> getMovies () async {
-    return _service.getMovies();
+    List<Movie> movies = await _service.getMovies();
+    return movies;
   } 
 
   Future<bool> isFavourite(int id) async {
@@ -22,9 +23,11 @@ class MovieController {
     await _favourites.toggle(id);
   }
 
-  Future<List<Movie>> getAllFavourites(int id) async {
+  Future<List<Movie>> getAllFavourites() async {
     final favouriteMovieIds = await _favourites.getAll();
-    //TODO
-    return [];
+    final List<Movie> movieFavList = await Future.wait(
+      favouriteMovieIds.map((id) => _service.getMovieById(id, true))
+    );
+    return movieFavList;
   }
 }

@@ -2,48 +2,39 @@ import 'package:betto_movie_app/constants.dart';
 import 'package:betto_movie_app/controllers/movie_controller.dart';
 import 'package:betto_movie_app/models/movie.dart';
 import 'package:betto_movie_app/views/movie_page.dart';
-import 'package:betto_movie_app/views/watchlist_page.dart';
 import 'package:flutter/material.dart';
 
-class MoviesPage extends StatefulWidget {
-  const MoviesPage({super.key});
+class WatchlistPage extends StatefulWidget {
+  const WatchlistPage({super.key});
 
   @override
-  State<MoviesPage> createState() => _MoviesPageState();
+  State<WatchlistPage> createState() => _WatchlistPageState();
 }
 
-class _MoviesPageState extends State<MoviesPage> {
-
+class _WatchlistPageState extends State<WatchlistPage> {
   final MovieController _movieController = MovieController();
   //Inseriamo il late per definire che movies non potrà essere più nullable dopo la chiamata
   late Future<List<Movie>> _movies;
-
-  //Inizializziamo movieController.
+  
   @override
   void initState() {
     super.initState();
-    loadMovies();
+    _loadFavourites();
   }
 
-  void loadMovies () async {
-    _movies = _movieController.getMovies();
+  void _loadFavourites () async {
+    setState(() {
+      _movies = _movieController.getAllFavourites();
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Betto Movie App'),
-        actions: [
-        IconButton(
-          icon: const Icon(Icons.favorite),
-          onPressed: () => Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => const WatchlistPage()),
-          ),
-        )
-        ],
+        title: Text(
+          'Watchlist Page'
+        ),
       ),
       body: FutureBuilder<List<Movie>>(
         future: _movies, 
@@ -111,7 +102,7 @@ class _MoviesPageState extends State<MoviesPage> {
             },
           );
         }
-      ),
+      )
     );
   }
 }
