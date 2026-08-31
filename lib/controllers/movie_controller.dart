@@ -30,4 +30,9 @@ class MovieController {
     );
     return movieFavList;
   }
+ 
+  Future<List<Movie>> searchMovies (String query) async {
+    List<Movie> movies = await _service.searchMovie(query);
+    return movies;
+  } 
 }
