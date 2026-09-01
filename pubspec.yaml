@@ -100,7 +100,7 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 flutter_native_splash:
   color: "#E6D7FF"
-  image: "assets/logo.png"
+  image: "assets/logosplash.png"
   android_12:
     color: "#E6D7FF"
-    image: "assets/logo.png"
+    image: "assets/logosplash.png"
