@@ -22,6 +22,8 @@ class _WatchlistPageState extends State<WatchlistPage> {
     _loadFavourites();
   }
 
+  //Creiamo la funzione asincrona _loadFavourites, che verrà utilizzata per prendere la 
+  //Lista dei film preferiti e a mostrarli nella Watchlist.
   void _loadFavourites () async {
     setState(() {
       _movies = _movieController.getAllFavourites();

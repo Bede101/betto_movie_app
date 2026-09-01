@@ -35,6 +35,7 @@ class _MoviesPageState extends State<MoviesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Betto Movie App'),
+        //Permettiamo all'utente di accedere alla Watchlist e alla pagina di ricerca
         actions: [
         IconButton(
           onPressed: () => Navigator.push(
@@ -53,25 +54,35 @@ class _MoviesPageState extends State<MoviesPage> {
       ),
       body: Column(
         children: [
+          //Usiamo FutureBuilder per andare a costruire la pagina usando la lista di film
+          //passati
           FutureBuilder<List<Movie>>(
             future: _movies, 
+            //CircularProgressIndicator verrà mostrato durante il caricamento della pagina
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting){
                 return const Center(
                   child: CircularProgressIndicator()
                 );
               }
+              //In caso di errore, verrà mostrata la causa
               else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
+              //La lista movies sarà vuota se i dati non sono ancora caricati
               final List<Movie> movies = snapshot.data ?? [];
+              //Andiamo a creare visualmente la lista di film popolari 
+              //mediante ListView.builder
               return Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
                     final movie = movies[index];
+                    //Utilizziamo ListTile per generare le righe della Lista, ognuna
+                    //contenente un film
                     return ListTile(
+                      //Assegnamo il poster prima del titolo
                        leading: movie.posterPath != null
                       ? ClipRRect(
                         borderRadius: BorderRadiusGeometry.circular(5.0),
@@ -85,6 +96,8 @@ class _MoviesPageState extends State<MoviesPage> {
                           height: 75,
                           width: 75
                       ), 
+                      //Andiamo ad mostrare gli altri parametri, ovverosia il titolo,
+                      //il rating e la sinossi
                       title: Text(movie.title, style: TextStyle(fontSize: 18)),
                       subtitle: Text(
                         movie.overview, 
@@ -92,6 +105,8 @@ class _MoviesPageState extends State<MoviesPage> {
                         maxLines: 3,
                         style: TextStyle(fontSize: 16)
                       ),
+                      //Utilizziamo il trailing per impostare il rating all'estremità destra
+                      //della riga
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -110,6 +125,8 @@ class _MoviesPageState extends State<MoviesPage> {
                           )
                         ],
                       ),
+                      //Cliccando sulla riga del film generata di ListTile, verrà mostrata
+                      //La pagina dettagli del film specifico
                       onTap: () {
                         Navigator.push(
                           context, MaterialPageRoute(

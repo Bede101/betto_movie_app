@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 class TMDBService {
   FavouriteService favouriteService = FavouriteService();
 
+  //Andiamo a definire la funzione per ritornare la lista dei film popolari
   Future<List<Movie>> getMovies () async {
     //Andiamo a fare il parsing dei film popolari
     final uri = Uri.parse(Constants.trendingUrl);
@@ -38,6 +39,9 @@ class TMDBService {
     return movies;
   }
 
+  //Andiamo similarmente a definire la getMovieById per fare restituire i film individuali,
+  //Usando come parametri l'id della classe Movie e il bool isFavourite, fondamentale per
+  //inserire e mantenere il film nella Watchlist
   Future<Movie> getMovieById(int id, bool isFavourite) async {
     //Andiamo a fare il parsing dei film popolari
     final uri = Uri.parse('${Constants.detailUrl}$id');
@@ -55,7 +59,7 @@ class TMDBService {
     final Movie m = Movie.fromJson(data, isFavourite); 
     return m;
   }
-
+  //Utilizziamo la funzione getTrailers per la lista dei trailer
   Future<List<Trailer>> getTrailers (int id) async {
     //Andiamo a fare il parsing dei film popolari
     final uri = Uri.parse("${Constants.apiUrl}/movie/${id.toString()}/videos");
@@ -78,13 +82,14 @@ class TMDBService {
     final List<Trailer> trailers = results.map((row) => Trailer.fromJson(row)).toList();
     return trailers;
   }
-
+  
   Future<List<Movie>> searchMovie (String query) async {
 
     String query2 = query.toLowerCase().trim();
     final uri = Uri.parse('${Constants.apiUrl}/search/movie?query=$query2');
     final response = await http.get(
       uri,
+      //Il campo authorization dell'header contiene l'API key. 
       headers: {
         'Authorization': 'Bearer ${Constants.apiKey}',
         'accept': 'application/json' 

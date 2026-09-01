@@ -3,6 +3,7 @@ import 'package:betto_movie_app/controllers/movie_controller.dart';
 import 'package:betto_movie_app/models/movie.dart';
 import 'package:betto_movie_app/views/movie_page.dart';
 import 'package:betto_movie_app/views/watchlist_page.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt; 
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -16,12 +17,53 @@ class _SearchPageState extends State<SearchPage> {
 
   final MovieController _movieController = MovieController();
   final TextEditingController _searchController = TextEditingController();
-  //Inseriamo il late per definire che movies non potrà essere più nullable dopo la chiamata
   Future<List<Movie>>? _resultMovies;
-  //Inizializziamo movieController.
+  final stt.SpeechToText _speechToText = stt.SpeechToText();
+  bool _speechAvailable = false;
+  bool _isListening = false;
+
   @override
   void initState() {
     super.initState();
+    _initSpeech();
+  }
+
+  Future<void> _initSpeech () async {
+    _speechAvailable = await _speechToText.initialize();
+    setState(() {
+      
+    });
+  }
+  
+  Future<void> _toggleListening () async {
+    if (!_speechAvailable) return;
+    //if per interrompere l'ascolto
+    if (_isListening) {
+      await _speechToText.stop();
+      setState(() {
+        _isListening = false;
+      });
+    }
+    else {
+      setState(() {
+        _isListening = false;
+      });
+      await _speechToText.listen(
+        listenOptions: stt.SpeechListenOptions(localeId: 'en_US'),
+        onResult:(result) {
+          final text = result.recognizedWords;
+          //Inseriamo le parole riconoscute dalla voce dell'utente alla search bar
+          _searchController.text = text;
+          //Permettiamo all'utente la possibilità di aggiungere altre parole per la ricerca 
+          //Mediante il TextSelection
+          _searchController.selection = TextSelection.fromPosition(TextPosition(offset: text.length));
+          runSearch(_searchController.text);
+        },
+      );
+    }
+    setState(() {
+      _isListening = false;
+    });
   }
 
   void runSearch(String query) {
@@ -40,9 +82,7 @@ class _SearchPageState extends State<SearchPage> {
         title: Text('Betto Movie App'),
         actions: [
         IconButton(
-          onPressed: () => Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => const SearchPage())),
+          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.home),
         ),
          IconButton(
@@ -59,14 +99,21 @@ class _SearchPageState extends State<SearchPage> {
           Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: _searchController,
-                  autofocus: true,
-                  decoration: InputDecoration(hintText: 'Type to search...'),
-                  textInputAction: TextInputAction.search,
-                  onSubmitted: runSearch
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: _searchController,
+                    autofocus: true,
+                    decoration: InputDecoration(hintText: 'Type to search...'),
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: runSearch
+                  )
                 )
               ),
+              _speechAvailable ? IconButton(
+                onPressed: () => _toggleListening(), 
+                icon: Icon(Icons.mic)
+              ) : SizedBox(),
               IconButton(
                 onPressed: () => runSearch(_searchController.text), 
                 icon: Icon(Icons.search)

@@ -18,6 +18,7 @@ class _MoviePageState extends State<MoviePage> {
   final TrailerController _trailerController = TrailerController();
   //Inseriamo il late per definire che movies non potrà essere più nullable dopo la chiamata
   late Future<List<Trailer>> _trailers;
+  bool checkTrailer = false;
   YoutubePlayerController controller = YoutubePlayerController(
       params: YoutubePlayerParams(
         showControls: true,
@@ -27,8 +28,8 @@ class _MoviePageState extends State<MoviePage> {
     );
 
   //Inizializzamo lo stato come abbiamo fatto per il movieController e il getMovies, tuttavia
-  //rendiamo la funzione asincrona a differenza di movieController così da migliorare la reattività
-  //dell'interfaccia
+  //rendiamo la funzione asincrona a differenza di movieController così da migliorare 
+  //la reattività dell'interfaccia
 
   @override
   void initState() {
@@ -40,9 +41,16 @@ class _MoviePageState extends State<MoviePage> {
   //immediatamente void e non Future
   void _loadtrailerData() async {
     _trailers = _trailerController.getTrailers(widget.movie.id);
+    List<Trailer> trailerList = await _trailers;
+    if(trailerList.isNotEmpty)
+    {
+      setState(() {
+        checkTrailer = true;
+      });
     Trailer trailer = (await _trailers).first;
     controller.cueVideoById(videoId: trailer.key);
-  }
+    }
+  } 
 
   @override
   void dispose () {
@@ -62,6 +70,8 @@ class _MoviePageState extends State<MoviePage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                widget.movie.posterPath == null || widget.movie.posterPath!.isEmpty ?
+                Text('No poster available.') :
                 Image.network(
                   '${Constants.posterUrl}${widget.movie.posterPath}'
                 ),
@@ -79,7 +89,7 @@ class _MoviePageState extends State<MoviePage> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                YoutubePlayer(controller: controller)
+                checkTrailer ? YoutubePlayer(controller: controller) : SizedBox(height: 16,)
               ],
             ),
           ),
