@@ -16,8 +16,12 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
 
   final MovieController _movieController = MovieController();
+  //Andiamo a creare una istanza di TextEditingController, così da controllare e 
+  //leggere/modificare il TextField
   final TextEditingController _searchController = TextEditingController();
   Future<List<Movie>>? _resultMovies;
+  //Creiamo anche una istanza di SpeechToText, necessario per far funzionare correttamente
+  //il riconoscimento vocale del device
   final stt.SpeechToText _speechToText = stt.SpeechToText();
   bool _speechAvailable = false;
   bool _isListening = false;
@@ -27,14 +31,17 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
     _initSpeech();
   }
-
+  //Inizializziamo lo SpeechToText e assegniamo a _speechAvailable 
+  //il risultato dell'inizializzazione
   Future<void> _initSpeech () async {
     _speechAvailable = await _speechToText.initialize();
     setState(() {
       
     });
   }
-  
+
+  //Definiamo toggleListening per avviare o interrompere il riconoscimento vocale 
+  //e facciamo in modo che vada ad aggiornare lo stato _isListening.
   Future<void> _toggleListening () async {
     if (!_speechAvailable) return;
     //if per interrompere l'ascolto
@@ -65,7 +72,8 @@ class _SearchPageState extends State<SearchPage> {
       _isListening = false;
     });
   }
-
+  //Avviamo la ricerca con runSearch, facendogli chiamare searchMovies tramite il controller
+  // e assegnando il Future risultante a _resultMovies
   void runSearch(String query) {
     setState(() {
       if (query.isNotEmpty) {
@@ -98,9 +106,13 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           Row(
             children: [
+              //Andiamo a dichiarare il widget Expanded così da permettere al TextField di
+              //Riconoscere quanto spazio può effettivamente occupare
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
+                  //Andiamo a creare il TextField, passandogli come controller 
+                  //_searchController e facendogli chiamare runSearch al momento dell'invio 
                   child: TextField(
                     controller: _searchController,
                     autofocus: true,
@@ -110,6 +122,8 @@ class _SearchPageState extends State<SearchPage> {
                   )
                 )
               ),
+              //Andiamo a fare in modo che se _speechAvailable è true, allora mostri
+              //l'icona del microfono, permettendo dunque la ricerca  vocale
               _speechAvailable ? IconButton(
                 onPressed: () => _toggleListening(), 
                 icon: Icon(Icons.mic)

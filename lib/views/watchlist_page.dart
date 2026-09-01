@@ -81,6 +81,8 @@ class _WatchlistPageState extends State<WatchlistPage> {
                     Text('⭐ ${movie.voteAverage?.toStringAsFixed(1)}',
                       style: TextStyle(fontSize: 18)
                     ),
+                    //Creiamo una nuova icona che permetta l'aggiunta e la rimozione dalla
+                    //Watchlist mediante il toggle
                     IconButton(
                       onPressed: ()async{
                         await _movieController.toggleFavorite(movie.id);

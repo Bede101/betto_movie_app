@@ -28,7 +28,7 @@ class TMDBService {
     //Salviamo i valori result in una Lista dinamica
     final List<dynamic> results = data['results'];
     //Andiamo a fare il mapping dei valori result, ovverosia li mettiamo in una lista di
-    //Coppie chiave-valore.+
+    //Coppie chiave-valore, verificando anche se ogni film è presente nei preferiti
     final List<int> favouritesIds = await favouriteService.getAll();
     final Set<int> favouriteIdSet = favouritesIds.toSet();
     final List<Movie> movies = 
@@ -78,7 +78,7 @@ class TMDBService {
     //Salviamo i valori result in una Lista dinamica
     final List<dynamic> results = data['results'];
     //Andiamo a fare il mapping dei valori result, ovverosia li mettiamo in una lista di
-    //Coppie chiave-valore.
+    //Coppie chiave-valore, verificando anche se ogni film è presente nei preferiti 
     final List<Trailer> trailers = results.map((row) => Trailer.fromJson(row)).toList();
     return trailers;
   }
@@ -103,7 +103,7 @@ class TMDBService {
     //Salviamo i valori result in una Lista dinamica
     final List<dynamic> results = data['results'];
     //Andiamo a fare il mapping dei valori result, ovverosia li mettiamo in una lista di
-    //Coppie chiave-valore.+
+    //Coppie chiave-valore, verificando anche se ogni film è presente nei preferiti
     final List<int> favouritesIds = await favouriteService.getAll();
     final Set<int> favouriteIdSet = favouritesIds.toSet();
     final List<Movie> movies = 
