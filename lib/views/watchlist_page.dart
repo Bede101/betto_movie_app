@@ -57,7 +57,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
               return ListTile(
                  leading: movie.posterPath != null
                 ? ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(5.0),
+                  borderRadius: BorderRadius.circular(5.0),
                   child: Image.network('${Constants.posterUrl}${movie.posterPath}', 
                     width: 75,
                     height: 75,

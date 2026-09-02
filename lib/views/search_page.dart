@@ -153,14 +153,13 @@ class _SearchPageState extends State<SearchPage> {
               }
               final List<Movie> movies = snapshot.data ?? [];
               return ListView.builder(
-                shrinkWrap: true,
                 itemCount: movies.length,
                 itemBuilder: (context, index) {
                 final movie = movies[index];
                 return ListTile(
                   leading: movie.posterPath != null
                   ? ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(5.0),
+                      borderRadius: BorderRadius.circular(5.0),
                       child: Image.network('${Constants.posterUrl}${movie.posterPath}', 
                       width: 75,
                       height: 75,

@@ -47,7 +47,7 @@ class _MoviePageState extends State<MoviePage> {
       setState(() {
         checkTrailer = true;
       });
-    Trailer trailer = (await _trailers).first;
+    Trailer trailer = trailerList.first;
     controller.cueVideoById(videoId: trailer.key);
     }
   } 
