@@ -3,10 +3,10 @@ import 'package:betto_movie_app/services/tmdb_service.dart';
 import 'package:betto_movie_app/services/favourite_service.dart';
 
 class MovieController {
-  //Definiamo il nuovo controller TMDBService, _service
+  //Definiamo il nuovo Service TMDBService, _service
   final TMDBService _service = TMDBService();
   
-  //Definiamo il nuovo controller di FavouriteService _favourites, 
+  //Definiamo il nuovo Service FavouriteService, _favourites, 
   //necessario per le operazioni con i film preferiti
   final FavouriteService _favourites = FavouriteService();
 
@@ -22,7 +22,7 @@ class MovieController {
     return await _favourites.contains(id);
   }
 
-  //Definiamo la funzione toggleFavourite per l'aggiunta/rimozione s
+  //Definiamo la funzione toggleFavourite per l'aggiunta/rimozione
   //dell'id del movie è all'interno di _favourites
   Future<void> toggleFavorite(int id) async {
     await _favourites.toggle(id);

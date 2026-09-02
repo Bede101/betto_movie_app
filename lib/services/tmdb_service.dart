@@ -61,7 +61,7 @@ class TMDBService {
   }
   //Utilizziamo la funzione getTrailers per la lista dei trailer
   Future<List<Trailer>> getTrailers (int id) async {
-    //Andiamo a fare il parsing dei film popolari
+    //Andiamo a fare il parsing dei trailer
     final uri = Uri.parse("${Constants.apiUrl}/movie/${id.toString()}/videos");
     final response = await http.get(
       uri,
@@ -78,7 +78,7 @@ class TMDBService {
     //Salviamo i valori result in una Lista dinamica
     final List<dynamic> results = data['results'];
     //Andiamo a fare il mapping dei valori result, ovverosia li mettiamo in una lista di
-    //Coppie chiave-valore, verificando anche se ogni film è presente nei preferiti 
+    //Coppie chiave-valore
     final List<Trailer> trailers = results.map((row) => Trailer.fromJson(row)).toList();
     return trailers;
   }
